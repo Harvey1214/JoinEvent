@@ -83,14 +83,14 @@ using JoinEventUI.Shared;
 #line hidden
 #nullable disable
 #nullable restore
-#line 2 "C:\Users\mikuh\source\repos\JoinEvent\JoinEventUI\Pages\Events.razor"
-using Data;
+#line 3 "C:\Users\mikuh\source\repos\JoinEvent\JoinEventUI\Pages\EventPage.razor"
+using Microsoft.AspNetCore.WebUtilities;
 
 #line default
 #line hidden
 #nullable disable
-    [Microsoft.AspNetCore.Components.RouteAttribute("/events")]
-    public partial class Events : Microsoft.AspNetCore.Components.ComponentBase
+    [Microsoft.AspNetCore.Components.RouteAttribute("/event")]
+    public partial class EventPage : Microsoft.AspNetCore.Components.ComponentBase
     {
         #pragma warning disable 1998
         protected override void BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder)
@@ -98,20 +98,17 @@ using Data;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 45 "C:\Users\mikuh\source\repos\JoinEvent\JoinEventUI\Pages\Events.razor"
-       
-    List<Event> events = new List<Event>();
-
-    private void OpenEvent(int id)
-    {
-        NavManager.NavigateTo($"event?id={id}");
-    }
+#line 9 "C:\Users\mikuh\source\repos\JoinEvent\JoinEventUI\Pages\EventPage.razor"
+           
+    private int currentCount;
 
     protected override void OnInitialized()
     {
-        DataAccess dataAccess = new DataAccess();
-
-        events = dataAccess.GetEvents();
+        var uri = NavManager.ToAbsoluteUri(NavManager.Uri);
+        if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("initialCount", out var _initialCount))
+        {
+            currentCount = Convert.ToInt32(_initialCount);
+        }
     }
 
 #line default

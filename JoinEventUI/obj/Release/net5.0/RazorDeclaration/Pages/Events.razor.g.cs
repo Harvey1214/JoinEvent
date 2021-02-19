@@ -98,14 +98,9 @@ using Data;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 45 "C:\Users\mikuh\source\repos\JoinEvent\JoinEventUI\Pages\Events.razor"
+#line 38 "C:\Users\mikuh\source\repos\JoinEvent\JoinEventUI\Pages\Events.razor"
        
     List<Event> events = new List<Event>();
-
-    private void OpenEvent(int id)
-    {
-        NavManager.NavigateTo($"event?id={id}");
-    }
 
     protected override void OnInitialized()
     {
@@ -117,7 +112,6 @@ using Data;
 #line default
 #line hidden
 #nullable disable
-        [global::Microsoft.AspNetCore.Components.InjectAttribute] private NavigationManager NavManager { get; set; }
     }
 }
 #pragma warning restore 1591

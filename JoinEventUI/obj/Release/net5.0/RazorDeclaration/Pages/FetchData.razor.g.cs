@@ -83,14 +83,14 @@ using JoinEventUI.Shared;
 #line hidden
 #nullable disable
 #nullable restore
-#line 2 "C:\Users\mikuh\source\repos\JoinEvent\JoinEventUI\Pages\Events.razor"
-using Data;
+#line 3 "C:\Users\mikuh\source\repos\JoinEvent\JoinEventUI\Pages\FetchData.razor"
+using JoinEventUI.Data;
 
 #line default
 #line hidden
 #nullable disable
-    [Microsoft.AspNetCore.Components.RouteAttribute("/events")]
-    public partial class Events : Microsoft.AspNetCore.Components.ComponentBase
+    [Microsoft.AspNetCore.Components.RouteAttribute("/fetchdata")]
+    public partial class FetchData : Microsoft.AspNetCore.Components.ComponentBase
     {
         #pragma warning disable 1998
         protected override void BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder)
@@ -98,26 +98,19 @@ using Data;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 45 "C:\Users\mikuh\source\repos\JoinEvent\JoinEventUI\Pages\Events.razor"
+#line 39 "C:\Users\mikuh\source\repos\JoinEvent\JoinEventUI\Pages\FetchData.razor"
        
-    List<Event> events = new List<Event>();
+    private WeatherForecast[] forecasts;
 
-    private void OpenEvent(int id)
+    protected override async Task OnInitializedAsync()
     {
-        NavManager.NavigateTo($"event?id={id}");
-    }
-
-    protected override void OnInitialized()
-    {
-        DataAccess dataAccess = new DataAccess();
-
-        events = dataAccess.GetEvents();
+        forecasts = await ForecastService.GetForecastAsync(DateTime.Now);
     }
 
 #line default
 #line hidden
 #nullable disable
-        [global::Microsoft.AspNetCore.Components.InjectAttribute] private NavigationManager NavManager { get; set; }
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private WeatherForecastService ForecastService { get; set; }
     }
 }
 #pragma warning restore 1591

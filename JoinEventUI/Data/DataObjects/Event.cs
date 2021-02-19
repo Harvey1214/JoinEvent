@@ -15,5 +15,12 @@ namespace JoinEventUI.Data
         public DateTime Date { get; set; }
         public string HTMLMessage { get; set; }
         public string HTMLPage { get; set; }
+        public int PlacesLeft
+        {
+            get
+            {
+                return MaxParticipants - ParticipantCount;
+            }
+        }
     }
 }

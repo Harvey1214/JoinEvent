@@ -4,7 +4,7 @@
 #pragma warning disable 0649
 #pragma warning disable 0169
 
-namespace JoinEventUI.Pages
+namespace JoinEventUI
 {
     #line hidden
     using System;
@@ -82,42 +82,13 @@ using JoinEventUI.Shared;
 #line default
 #line hidden
 #nullable disable
-#nullable restore
-#line 2 "C:\Users\mikuh\source\repos\JoinEvent\JoinEventUI\Pages\Events.razor"
-using Data;
-
-#line default
-#line hidden
-#nullable disable
-    [Microsoft.AspNetCore.Components.RouteAttribute("/events")]
-    public partial class Events : Microsoft.AspNetCore.Components.ComponentBase
+    public partial class App : Microsoft.AspNetCore.Components.ComponentBase
     {
         #pragma warning disable 1998
         protected override void BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder)
         {
         }
         #pragma warning restore 1998
-#nullable restore
-#line 45 "C:\Users\mikuh\source\repos\JoinEvent\JoinEventUI\Pages\Events.razor"
-       
-    List<Event> events = new List<Event>();
-
-    private void OpenEvent(int id)
-    {
-        NavManager.NavigateTo($"event?id={id}");
-    }
-
-    protected override void OnInitialized()
-    {
-        DataAccess dataAccess = new DataAccess();
-
-        events = dataAccess.GetEvents();
-    }
-
-#line default
-#line hidden
-#nullable disable
-        [global::Microsoft.AspNetCore.Components.InjectAttribute] private NavigationManager NavManager { get; set; }
     }
 }
 #pragma warning restore 1591

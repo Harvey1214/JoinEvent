@@ -10,6 +10,23 @@ namespace JoinEventUI.Data
 {
     public class DataAccess
     {
+        public Event GetEvent(int id)
+        {
+            using (IDbConnection connection = new SqlConnection(Helper.GetConnectionString()))
+            {
+                var output = connection.Query<Event>($"select * from EventsTable where Id = @Id", new { Id = id }).ToList();
+
+                if (output.Count > 0)
+                {
+                    return output.First();
+                }
+                else
+                {
+                    return null;
+                }
+            }
+        }
+
         public List<Event> GetEvents()
         {
             using (IDbConnection connection = new SqlConnection(Helper.GetConnectionString()))

@@ -71,3 +71,5 @@ C:\Users\mikuh\source\repos\JoinEvent\JoinEventUI\obj\Debug\net5.0\RazorDeclarat
 C:\Users\mikuh\source\repos\JoinEvent\JoinEventUI\obj\Debug\net5.0\RazorDeclaration\Pages\NewEvent.razor.g.cs
 C:\Users\mikuh\source\repos\JoinEvent\JoinEventUI\obj\Debug\net5.0\Razor\Pages\Events.razor.g.cs
 C:\Users\mikuh\source\repos\JoinEvent\JoinEventUI\obj\Debug\net5.0\Razor\Pages\NewEvent.razor.g.cs
+C:\Users\mikuh\source\repos\JoinEvent\JoinEventUI\obj\Debug\net5.0\RazorDeclaration\Pages\EventPage.razor.g.cs
+C:\Users\mikuh\source\repos\JoinEvent\JoinEventUI\obj\Debug\net5.0\Razor\Pages\EventPage.razor.g.cs

@@ -1,5 +1,6 @@
 ﻿@page "/events" 
-@using Data;
+@using Data
+@inject NavigationManager NavManager 
 
 <h3>Events</h3>
 
@@ -7,22 +8,16 @@
     <thead>
         <tr>
             <th>
-                Id
-            </th>
-            <th>
                 Name
             </th>
             <th>
-                Password
-            </th>
-            <th>
-                Participant Count
-            </th>
-            <th>
-                Max Participants
+                Places Left
             </th>
             <th>
                 Date
+            </th>
+            <th>
+                Open
             </th>
         </tr>
     </thead>
@@ -31,22 +26,16 @@
         {
             <tr>
                 <td>
-                    @eventData.Id
-                </td>
-                <td>
                     @eventData.Name
                 </td>
                 <td>
-                    @eventData.Password
-                </td>
-                <td>
-                    @eventData.ParticipantCount
-                </td>
-                <td>
-                    @eventData.MaxParticipants
+                    @eventData.PlacesLeft
                 </td>
                 <td>
                     @eventData.Date
+                </td>
+                <td>
+                    <button type="button" class="btn btn-info" @onclick="() => OpenEvent(eventData.Id)">Open</button>
                 </td>
             </tr>
         }
@@ -55,6 +44,11 @@
 
 @code {
     List<Event> events = new List<Event>();
+
+    private void OpenEvent(int id)
+    {
+        NavManager.NavigateTo($"event?id={id}&firstLoad=true");
+    }
 
     protected override void OnInitialized()
     {

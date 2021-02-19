@@ -83,14 +83,21 @@ using JoinEventUI.Shared;
 #line hidden
 #nullable disable
 #nullable restore
-#line 2 "C:\Users\mikuh\source\repos\JoinEvent\JoinEventUI\Pages\Events.razor"
+#line 3 "C:\Users\mikuh\source\repos\JoinEvent\JoinEventUI\Pages\EventPage.razor"
+using Microsoft.AspNetCore.WebUtilities;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 4 "C:\Users\mikuh\source\repos\JoinEvent\JoinEventUI\Pages\EventPage.razor"
 using Data;
 
 #line default
 #line hidden
 #nullable disable
-    [Microsoft.AspNetCore.Components.RouteAttribute("/events")]
-    public partial class Events : Microsoft.AspNetCore.Components.ComponentBase
+    [Microsoft.AspNetCore.Components.RouteAttribute("/event")]
+    public partial class EventPage : Microsoft.AspNetCore.Components.ComponentBase
     {
         #pragma warning disable 1998
         protected override void BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder)
@@ -98,20 +105,30 @@ using Data;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 45 "C:\Users\mikuh\source\repos\JoinEvent\JoinEventUI\Pages\Events.razor"
-       
-    List<Event> events = new List<Event>();
-
-    private void OpenEvent(int id)
-    {
-        NavManager.NavigateTo($"event?id={id}");
-    }
+#line 12 "C:\Users\mikuh\source\repos\JoinEvent\JoinEventUI\Pages\EventPage.razor"
+           
+    private Event Event;
 
     protected override void OnInitialized()
     {
+        var uri = NavManager.ToAbsoluteUri(NavManager.Uri);
+        if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("id", out var _id))
+        {
+            int eventId = 0;
+            bool success = Int32.TryParse(_id, out eventId);
+
+            if (success)
+            {
+                SetEvent(eventId);
+            }
+        }
+    }
+
+    private void SetEvent(int id)
+    {
         DataAccess dataAccess = new DataAccess();
 
-        events = dataAccess.GetEvents();
+        Event = dataAccess.GetEvent(id);
     }
 
 #line default

@@ -82,15 +82,8 @@ using JoinEventUI.Shared;
 #line default
 #line hidden
 #nullable disable
-#nullable restore
-#line 2 "C:\Users\mikuh\source\repos\JoinEvent\JoinEventUI\Pages\Events.razor"
-using Data;
-
-#line default
-#line hidden
-#nullable disable
-    [Microsoft.AspNetCore.Components.RouteAttribute("/events")]
-    public partial class Events : Microsoft.AspNetCore.Components.ComponentBase
+    [Microsoft.AspNetCore.Components.RouteAttribute("/counter")]
+    public partial class Counter : Microsoft.AspNetCore.Components.ComponentBase
     {
         #pragma warning disable 1998
         protected override void BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder)
@@ -98,26 +91,18 @@ using Data;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 45 "C:\Users\mikuh\source\repos\JoinEvent\JoinEventUI\Pages\Events.razor"
+#line 9 "C:\Users\mikuh\source\repos\JoinEvent\JoinEventUI\Pages\Counter.razor"
        
-    List<Event> events = new List<Event>();
+    private int currentCount = 0;
 
-    private void OpenEvent(int id)
+    private void IncrementCount()
     {
-        NavManager.NavigateTo($"event?id={id}");
-    }
-
-    protected override void OnInitialized()
-    {
-        DataAccess dataAccess = new DataAccess();
-
-        events = dataAccess.GetEvents();
+        currentCount++;
     }
 
 #line default
 #line hidden
 #nullable disable
-        [global::Microsoft.AspNetCore.Components.InjectAttribute] private NavigationManager NavManager { get; set; }
     }
 }
 #pragma warning restore 1591

@@ -83,14 +83,14 @@ using JoinEventUI.Shared;
 #line hidden
 #nullable disable
 #nullable restore
-#line 2 "C:\Users\mikuh\source\repos\JoinEvent\JoinEventUI\Pages\Events.razor"
+#line 2 "C:\Users\mikuh\source\repos\JoinEvent\JoinEventUI\Pages\NewEvent.razor"
 using Data;
 
 #line default
 #line hidden
 #nullable disable
-    [Microsoft.AspNetCore.Components.RouteAttribute("/events")]
-    public partial class Events : Microsoft.AspNetCore.Components.ComponentBase
+    [Microsoft.AspNetCore.Components.RouteAttribute("/newevent")]
+    public partial class NewEvent : Microsoft.AspNetCore.Components.ComponentBase
     {
         #pragma warning disable 1998
         protected override void BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder)
@@ -98,26 +98,47 @@ using Data;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 45 "C:\Users\mikuh\source\repos\JoinEvent\JoinEventUI\Pages\Events.razor"
+#line 15 "C:\Users\mikuh\source\repos\JoinEvent\JoinEventUI\Pages\NewEvent.razor"
        
-    List<Event> events = new List<Event>();
+    private string Name { get; set; }
+    private string Password { get; set; }
+    private int MaxParticipants { get; set; }
+    private DateTime Date { get; set; } = DateTime.Now;
+    private string HTMLMessage;
+    private string HTMLPage;
 
-    private void OpenEvent(int id)
+    private void SetMaxParticipants(string maxParticipants)
     {
-        NavManager.NavigateTo($"event?id={id}");
+        int result = 0;
+        bool success = Int32.TryParse(maxParticipants, out result);
+
+        if (success)
+        {
+            MaxParticipants = result;
+        }
     }
 
-    protected override void OnInitialized()
+    private void SetDate(string date)
+    {
+        DateTime result = DateTime.Now;
+        bool success = DateTime.TryParse(date, out result);
+
+        if (success && result.Year > 1900)
+        {
+            Date = result;
+        }
+    }
+
+    private void Submit()
     {
         DataAccess dataAccess = new DataAccess();
 
-        events = dataAccess.GetEvents();
+        dataAccess.InsertEvent(Name, Password, MaxParticipants, Date, HTMLMessage, HTMLPage);
     }
 
 #line default
 #line hidden
 #nullable disable
-        [global::Microsoft.AspNetCore.Components.InjectAttribute] private NavigationManager NavManager { get; set; }
     }
 }
 #pragma warning restore 1591

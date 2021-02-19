@@ -1,0 +1,42 @@
+﻿@page "/event"
+@inject NavigationManager NavManager;
+@using Microsoft.AspNetCore.WebUtilities
+@using Data
+
+@if (Event != null)
+{
+    <h3>@Event.Name</h3>
+    @((MarkupString)Event.HTMLPage)
+}
+
+@code {    
+    private Event Event;
+
+    protected override void OnInitialized()
+    {
+        var uri = NavManager.ToAbsoluteUri(NavManager.Uri);
+
+        if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("firstLoad", out var _firstLoad))
+        {
+
+        }
+
+        if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("id", out var _id))
+        {
+            int eventId = 0;
+            bool success = Int32.TryParse(_id, out eventId);
+
+            if (success)
+            {
+                SetEvent(eventId);
+            }
+        }
+    }
+
+    private void SetEvent(int id)
+    {
+        DataAccess dataAccess = new DataAccess();
+
+        Event = dataAccess.GetEvent(id);
+    }
+}
