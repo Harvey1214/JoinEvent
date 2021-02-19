@@ -1,0 +1,65 @@
+﻿@page "/events" 
+@using Data;
+
+<h3>Events</h3>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Id
+            </th>
+            <th>
+                Name
+            </th>
+            <th>
+                Password
+            </th>
+            <th>
+                Participant Count
+            </th>
+            <th>
+                Max Participants
+            </th>
+            <th>
+                Date
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var eventData in events)
+        {
+            <tr>
+                <td>
+                    @eventData.Id
+                </td>
+                <td>
+                    @eventData.Name
+                </td>
+                <td>
+                    @eventData.Password
+                </td>
+                <td>
+                    @eventData.ParticipantCount
+                </td>
+                <td>
+                    @eventData.MaxParticipants
+                </td>
+                <td>
+                    @eventData.Date
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@code {
+    List<Event> events = new List<Event>();
+
+    protected override void OnInitialized()
+    {
+        DataAccess dataAccess = new DataAccess();
+
+        events = dataAccess.GetEvents();
+    }
+}

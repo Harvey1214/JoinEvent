@@ -1,0 +1,51 @@
+﻿@page "/newevent"
+@using Data;
+
+<h3>NewEvent</h3>
+
+<input type="text" class="form-control form-element" @bind="@Name" @oninput="@((e) => { Name = (string)e.Value; })" placeholder="Name" />
+<!----><input type="number" class="form-control form-element" @oninput="@((e) => { SetMaxParticipants((string)e.Value); })" placeholder="Maximum Participant Count" />
+<input type="text" class="form-control form-element" @bind="@Password" @oninput="@((e) => { Password = (string)e.Value; })" placeholder="Password"/>
+<input type="datetime-local" class="form-control form-element" @oninput="@((e) => { SetDate((string)e.Value); })" placeholder="Date and Time" />
+<textarea rows="3" class="form-control form-element" @bind="@HTMLMessage" @oninput="@((e) => { HTMLMessage = (string)e.Value; })" placeholder="HTML Message for Participants" />
+<textarea rows="3" class="form-control form-element" @bind="@HTMLPage" @oninput="@((e) => { HTMLPage = (string)e.Value; })" placeholder="HTML Page potential Participants" />
+
+<button @onclick="Submit" type="button" class="btn btn-primary btn-block">Submit</button>
+
+@code {
+    private string Name { get; set; }
+    private string Password { get; set; }
+    private int MaxParticipants { get; set; }
+    private DateTime Date { get; set; } = DateTime.Now;
+    private string HTMLMessage;
+    private string HTMLPage;
+
+    private void SetMaxParticipants(string maxParticipants)
+    {
+        int result = 0;
+        bool success = Int32.TryParse(maxParticipants, out result);
+
+        if (success)
+        {
+            MaxParticipants = result;
+        }
+    }
+
+    private void SetDate(string date)
+    {
+        DateTime result = DateTime.Now;
+        bool success = DateTime.TryParse(date, out result);
+
+        if (success && result.Year > 1900)
+        {
+            Date = result;
+        }
+    }
+
+    private void Submit()
+    {
+        DataAccess dataAccess = new DataAccess();
+
+        dataAccess.InsertEvent(Name, Password, MaxParticipants, Date, HTMLMessage, HTMLPage);
+    }
+}
