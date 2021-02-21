@@ -83,14 +83,21 @@ using JoinEventUI.Shared;
 #line hidden
 #nullable disable
 #nullable restore
-#line 2 "C:\Users\mikuh\source\repos\JoinEvent\JoinEventUI\Pages\NewEvent.razor"
+#line 2 "C:\Users\mikuh\source\repos\JoinEvent\JoinEventUI\Pages\JoinEvent.razor"
 using Data;
 
 #line default
 #line hidden
 #nullable disable
-    [Microsoft.AspNetCore.Components.RouteAttribute("/newevent")]
-    public partial class NewEvent : Microsoft.AspNetCore.Components.ComponentBase
+#nullable restore
+#line 3 "C:\Users\mikuh\source\repos\JoinEvent\JoinEventUI\Pages\JoinEvent.razor"
+using Microsoft.AspNetCore.WebUtilities;
+
+#line default
+#line hidden
+#nullable disable
+    [Microsoft.AspNetCore.Components.RouteAttribute("/join")]
+    public partial class JoinEvent : Microsoft.AspNetCore.Components.ComponentBase
     {
         #pragma warning disable 1998
         protected override void BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder)
@@ -98,52 +105,71 @@ using Data;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 47 "C:\Users\mikuh\source\repos\JoinEvent\JoinEventUI\Pages\NewEvent.razor"
+#line 37 "C:\Users\mikuh\source\repos\JoinEvent\JoinEventUI\Pages\JoinEvent.razor"
        
-    private string Name { get; set; } = "";
-    private string Password { get; set; } = "";
-    private int MaxParticipants { get; set; } = 0;
-    private DateTime Date { get; set; } = DateTime.Now;
-    private string HTMLMessage = "";
-    private string HTMLPage = "";
+    private Event Event;
 
-    private string ControlPassword { get; set; }
+    private string FullName { get; set; } = "";
+    private string Email { get; set; } = "";
+    private string PhoneNumber { get; set; } = "";
+    private int AtendeeCount { get; set; } = 0;
 
-    private bool successfulyCreated = false;
-    private int newEventId;
-
-    private void SetMaxParticipants(string maxParticipants)
-    {
-        int result = 0;
-        bool success = Int32.TryParse(maxParticipants, out result);
-
-        if (success)
-        {
-            MaxParticipants = result;
-        }
-    }
-
-    private void SetDate(string date)
-    {
-        DateTime result = DateTime.Now;
-        bool success = DateTime.TryParse(date, out result);
-
-        if (success && result.Year > 1900)
-        {
-            Date = result;
-        }
-    }
+    private bool joined = false;
+    private bool emailSent = false;
 
     private void Submit()
     {
         DataAccess dataAccess = new DataAccess();
 
-        if (Password == ControlPassword && Name.Length > 0 && Password.Length > 0)
+        if (FullName.Length > 0 && Email.Length > 0 && AtendeeCount > 0 && AtendeeCount <= Event.PlacesLeft)
         {
-            newEventId = dataAccess.InsertEvent(Name, Password, MaxParticipants, Date, HTMLMessage, HTMLPage);
+            dataAccess.InsertParticipant(Event.Id, FullName, Email, PhoneNumber, AtendeeCount);
+            dataAccess.UpdateParticipantCount(AtendeeCount, Event.Id);
 
-            successfulyCreated = true;
+            joined = true;
+
+            if (Event.HTMLMessage.Length > 0)
+            {
+                EmailSender.Send(Email, Event.HTMLMessage, Event.Name);
+                emailSent = true;
+            }
+
+            StateHasChanged();
         }
+    }
+
+    private void SetAtendeeCount(string atendeeCountText)
+    {
+        int atendeeCount = 0;
+        bool success = Int32.TryParse(atendeeCountText, out atendeeCount);
+
+        if (success)
+        {
+            AtendeeCount = atendeeCount;
+        }
+    }
+
+    protected override void OnInitialized()
+    {
+        var uri = NavManager.ToAbsoluteUri(NavManager.Uri);
+
+        if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("id", out var _id))
+        {
+            int eventId = 0;
+            bool success = Int32.TryParse(_id, out eventId);
+
+            if (success)
+            {
+                SetEvent(eventId);
+            }
+        }
+    }
+
+    private void SetEvent(int id)
+    {
+        DataAccess dataAccess = new DataAccess();
+
+        Event = dataAccess.GetEvent(id);
     }
 
 #line default

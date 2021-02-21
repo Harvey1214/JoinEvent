@@ -1,0 +1,120 @@
+﻿@page "/admin"
+@using Data;
+@using Data.DataObjects;
+
+<h3>Admin</h3>
+
+@if (loggedIn == false)
+{
+    <form method="post" action="javascript:void(0);">
+        <div class="form-group">
+            <input type="number" class="form-control form-element" @oninput="@((e) => { SetEventId((string)e.Value); })" placeholder="Event Id" required />
+        </div>
+        <div class="form-group">
+            <input type="password" class="form-control form-element" @bind="@Password" @oninput="@((e) => { Password = (string)e.Value; })" placeholder="Password" required />
+        </div>
+        <div class="form-group">
+            <button @onclick="Login" type="submit" class="btn btn-primary btn-block">Open Event</button>
+        </div>
+    </form>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Id
+                </th>
+                <th>
+                    Full Name
+                </th>
+                <th>
+                    Email
+                </th>
+                <th>
+                    Phone Number
+                </th>
+                <th>
+                    Atendee Count
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var participant in Participants)
+            {
+                <tr>
+                    <td>
+                        @participant.Id
+                    </td>
+                    <td>
+                        @participant.FullName
+                    </td>
+                    <td>
+                        @participant.Email
+                    </td>
+                    <td>
+                        @participant.PhoneNumber
+                    </td>
+                    <td>
+                        @participant.AtendeeCount
+                    </td>
+                </tr>
+            }
+            <tr>
+                <td>
+                    <b>
+                        Total:
+                    </b>
+                </td>
+                <td>
+
+                </td>
+                <td>
+
+                </td>
+                <td>
+
+                </td>
+                <td>
+                    <b>@Event.ParticipantCount / @Event.MaxParticipants</b>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+}
+
+@code {
+    private int EventId { get; set; }
+    private string Password { get; set; } = "";
+
+    private bool loggedIn = false;
+
+    private Event Event { get; set; }
+    private List<Participant> Participants { get; set; }
+
+    private void SetEventId(string idText)
+    {
+        int id = 0;
+        bool success = Int32.TryParse(idText, out id);
+
+        if (success)
+        {
+            EventId = id;
+        }
+    }
+
+    private void Login()
+    {
+        DataAccess dataAccess = new DataAccess();
+
+        Event = dataAccess.GetEvent(EventId);
+
+        if (Event.Password == Password)
+        {
+            Participants = dataAccess.GetParticipants(Event.Id);
+
+            loggedIn = true;
+        }
+    }
+}

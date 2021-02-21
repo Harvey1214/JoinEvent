@@ -1,0 +1,102 @@
+﻿@page "/join"
+@using Data
+@using Microsoft.AspNetCore.WebUtilities
+@inject NavigationManager NavManager
+
+@if (joined)
+{
+    <div class="alert alert-success" role="alert">
+        <strong>Congrats!</strong> You have joined @Event.Name
+    </div>
+    <div class="alert alert-info" role="alert">
+        An <strong>email has been sent</strong> to the email address provided with further information about the event
+    </div>
+}
+
+<h3>Join @Event.Name</h3>
+
+<form method="post" action="javascript:void(0);">
+    <small class="form-text text-muted">We'll never share your personal information with anyone else</small>
+    <div class="form-group">
+        <input type="text" class="form-control form-element" @bind="@FullName" @oninput="@((e) => { FullName = (string)e.Value; })" placeholder="Full Name" required />
+    </div>
+    <div class="form-group">
+        <input @bind="@Email" @oninput="@((e) => { Email = (string)e.Value; })" type="email" class="form-control" placeholder="Email" required>
+    </div>
+    <div class="form-group">
+        <input @bind="@PhoneNumber" @oninput="@((e) => { PhoneNumber = (string)e.Value; })" type="tel" class="form-control" placeholder="Phone Number">
+    </div>
+    <div>
+        <input type="number" min="1" max="@Event.PlacesLeft" class="form-control form-element" @oninput="@((e) => { SetAtendeeCount((string)e.Value); })" placeholder="Atendee Count (@Event.PlacesLeft places left)" required />
+    </div>
+    <div class="form-group">
+        <button @onclick="Submit" type="submit" class="btn btn-primary btn-block">Submit</button>
+    </div>
+</form>
+
+@code {
+    private Event Event;
+
+    private string FullName { get; set; } = "";
+    private string Email { get; set; } = "";
+    private string PhoneNumber { get; set; } = "";
+    private int AtendeeCount { get; set; } = 0;
+
+    private bool joined = false;
+    private bool emailSent = false;
+
+    private void Submit()
+    {
+        DataAccess dataAccess = new DataAccess();
+
+        if (FullName.Length > 0 && Email.Length > 0 && AtendeeCount > 0 && AtendeeCount <= Event.PlacesLeft)
+        {
+            dataAccess.InsertParticipant(Event.Id, FullName, Email, PhoneNumber, AtendeeCount);
+            dataAccess.UpdateParticipantCount(AtendeeCount, Event.Id);
+
+            joined = true;
+
+            if (Event.HTMLMessage.Length > 0)
+            {
+                EmailSender.Send(Email, Event.HTMLMessage, Event.Name);
+                emailSent = true;
+            }
+
+            StateHasChanged();
+        }
+    }
+
+    private void SetAtendeeCount(string atendeeCountText)
+    {
+        int atendeeCount = 0;
+        bool success = Int32.TryParse(atendeeCountText, out atendeeCount);
+
+        if (success)
+        {
+            AtendeeCount = atendeeCount;
+        }
+    }
+
+    protected override void OnInitialized()
+    {
+        var uri = NavManager.ToAbsoluteUri(NavManager.Uri);
+
+        if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("id", out var _id))
+        {
+            int eventId = 0;
+            bool success = Int32.TryParse(_id, out eventId);
+
+            if (success)
+            {
+                SetEvent(eventId);
+            }
+        }
+    }
+
+    private void SetEvent(int id)
+    {
+        DataAccess dataAccess = new DataAccess();
+
+        Event = dataAccess.GetEvent(id);
+    }
+}

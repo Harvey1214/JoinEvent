@@ -2,24 +2,60 @@
 @using Data
 @inject NavigationManager NavManager
 
+@if (successfulyCreated)
+{
+    <div class="alert alert-success" role="alert">
+        <strong>Congrats!</strong> Your new event has been successfuly created
+    </div>
+    <div class="alert alert-info" role="alert">
+        Use <b>Id @newEventId</b> and your event password to log into your <a class="alert-link" href="admin">Admin Dashboard</a>
+    </div>
+}
+
 <h3>New Event</h3>
 
-<input type="text" class="form-control form-element" @bind="@Name" @oninput="@((e) => { Name = (string)e.Value; })" placeholder="Name" />
-<!----><input type="number" class="form-control form-element" @oninput="@((e) => { SetMaxParticipants((string)e.Value); })" placeholder="Maximum Participant Count" />
-<input type="text" class="form-control form-element" @bind="@Password" @oninput="@((e) => { Password = (string)e.Value; })" placeholder="Password"/>
-<input type="datetime-local" class="form-control form-element" @oninput="@((e) => { SetDate((string)e.Value); })" placeholder="Date and Time" />
-<textarea rows="3" class="form-control form-element" @bind="@HTMLMessage" @oninput="@((e) => { HTMLMessage = (string)e.Value; })" placeholder="HTML Message for Participants" />
-<textarea rows="3" class="form-control form-element" @bind="@HTMLPage" @oninput="@((e) => { HTMLPage = (string)e.Value; })" placeholder="HTML Page for Event" />
+<form method="post" action="javascript:void(0);">
+    <div class="form-group">
+        <input type="text" class="form-control" @bind="@Name" @oninput="@((e) => { Name = (string)e.Value; })" placeholder="Event Name" required />
+    </div>
+    <div class="form-group">
+        <input type="number" class="form-control" @oninput="@((e) => { SetMaxParticipants((string)e.Value); })" placeholder="Maximum Participant Count" required />
+    </div>
+    <div class="form-group">
+        <input type="password" class="form-control" @bind="@Password" @oninput="@((e) => { Password = (string)e.Value; })" placeholder="Password" required />
+    </div>
+    <div class="form-group">
+        <input type="password" class="form-control" @bind="@ControlPassword" @oninput="@((e) => { ControlPassword = (string)e.Value; })" placeholder="Control Password" required />
+    </div>
+    <div class="form-group">
+        <input type="datetime-local" class="form-control" @oninput="@((e) => { SetDate((string)e.Value); })" placeholder="Date and Time" required />
+    </div>
+    <!--
+        <div class="form-group">
+            <textarea rows="3" class="form-control" @bind="@HTMLMessage" @oninput="@((e) => { HTMLMessage = (string)e.Value; })" placeholder="HTML Message for Participants" />
+        </div>
+        <div class="form-group">
+            <textarea rows="3" class="form-control" @bind="@HTMLPage" @oninput="@((e) => { HTMLPage = (string)e.Value; })" placeholder="HTML Page for Event" />
+        </div>
+    -->
 
-<button @onclick="Submit" type="button" class="btn btn-primary btn-block">Submit</button>
+    <div class="form-group">
+        <button @onclick="Submit" type="submit" class="btn btn-primary btn-block">Submit</button>
+    </div>
+</form>
 
 @code {
-    private string Name { get; set; }
-    private string Password { get; set; }
-    private int MaxParticipants { get; set; }
+    private string Name { get; set; } = "";
+    private string Password { get; set; } = "";
+    private int MaxParticipants { get; set; } = 0;
     private DateTime Date { get; set; } = DateTime.Now;
-    private string HTMLMessage;
-    private string HTMLPage;
+    private string HTMLMessage = "";
+    private string HTMLPage = "";
+
+    private string ControlPassword { get; set; }
+
+    private bool successfulyCreated = false;
+    private int newEventId;
 
     private void SetMaxParticipants(string maxParticipants)
     {
@@ -47,6 +83,11 @@
     {
         DataAccess dataAccess = new DataAccess();
 
-        dataAccess.InsertEvent(Name, Password, MaxParticipants, Date, HTMLMessage, HTMLPage);
+        if (Password == ControlPassword && Name.Length > 0 && Password.Length > 0)
+        {
+            newEventId = dataAccess.InsertEvent(Name, Password, MaxParticipants, Date, HTMLMessage, HTMLPage);
+
+            successfulyCreated = true;
+        }
     }
 }

@@ -13,8 +13,8 @@ namespace JoinEventUI.Data
         public int ParticipantCount { get; set; }
         public int MaxParticipants { get; set; }
         public DateTime Date { get; set; }
-        public string HTMLMessage { get; set; }
-        public string HTMLPage { get; set; }
+        public string HTMLMessage { get; set; } = "";
+        public string HTMLPage { get; set; } = "";
         public int PlacesLeft
         {
             get

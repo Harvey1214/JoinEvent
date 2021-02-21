@@ -5,21 +5,30 @@
 
 @if (Event != null)
 {
-    <h3>@Event.Name</h3>
+    <h3 style="display:inline-block">@Event.Name</h3>
+    @if (Event.PlacesLeft > 0)
+    {
+        <button class="btn btn-primary" style="float:right" @onclick="Join">Join</button>
+    }
+    else
+    {
+        <button class="btn btn-primary" style="float:right" @onclick="Join" disabled>Join</button>
+    }
+    <br />
     @((MarkupString)Event.HTMLPage)
 }
 
-@code {    
+@code {
     private Event Event;
+
+    private void Join()
+    {
+        NavManager.NavigateTo($"join?id={ Event.Id }");
+    }
 
     protected override void OnInitialized()
     {
         var uri = NavManager.ToAbsoluteUri(NavManager.Uri);
-
-        if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("firstLoad", out var _firstLoad))
-        {
-
-        }
 
         if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("id", out var _id))
         {

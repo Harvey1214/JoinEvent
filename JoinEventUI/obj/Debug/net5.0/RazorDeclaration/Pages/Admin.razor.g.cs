@@ -83,14 +83,21 @@ using JoinEventUI.Shared;
 #line hidden
 #nullable disable
 #nullable restore
-#line 2 "C:\Users\mikuh\source\repos\JoinEvent\JoinEventUI\Pages\NewEvent.razor"
+#line 2 "C:\Users\mikuh\source\repos\JoinEvent\JoinEventUI\Pages\Admin.razor"
 using Data;
 
 #line default
 #line hidden
 #nullable disable
-    [Microsoft.AspNetCore.Components.RouteAttribute("/newevent")]
-    public partial class NewEvent : Microsoft.AspNetCore.Components.ComponentBase
+#nullable restore
+#line 3 "C:\Users\mikuh\source\repos\JoinEvent\JoinEventUI\Pages\Admin.razor"
+using Data.DataObjects;
+
+#line default
+#line hidden
+#nullable disable
+    [Microsoft.AspNetCore.Components.RouteAttribute("/admin")]
+    public partial class Admin : Microsoft.AspNetCore.Components.ComponentBase
     {
         #pragma warning disable 1998
         protected override void BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder)
@@ -98,58 +105,44 @@ using Data;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 47 "C:\Users\mikuh\source\repos\JoinEvent\JoinEventUI\Pages\NewEvent.razor"
+#line 87 "C:\Users\mikuh\source\repos\JoinEvent\JoinEventUI\Pages\Admin.razor"
        
-    private string Name { get; set; } = "";
+    private int EventId { get; set; }
     private string Password { get; set; } = "";
-    private int MaxParticipants { get; set; } = 0;
-    private DateTime Date { get; set; } = DateTime.Now;
-    private string HTMLMessage = "";
-    private string HTMLPage = "";
 
-    private string ControlPassword { get; set; }
+    private bool loggedIn = false;
 
-    private bool successfulyCreated = false;
-    private int newEventId;
+    private Event Event { get; set; }
+    private List<Participant> Participants { get; set; }
 
-    private void SetMaxParticipants(string maxParticipants)
+    private void SetEventId(string idText)
     {
-        int result = 0;
-        bool success = Int32.TryParse(maxParticipants, out result);
+        int id = 0;
+        bool success = Int32.TryParse(idText, out id);
 
         if (success)
         {
-            MaxParticipants = result;
+            EventId = id;
         }
     }
 
-    private void SetDate(string date)
-    {
-        DateTime result = DateTime.Now;
-        bool success = DateTime.TryParse(date, out result);
-
-        if (success && result.Year > 1900)
-        {
-            Date = result;
-        }
-    }
-
-    private void Submit()
+    private void Login()
     {
         DataAccess dataAccess = new DataAccess();
 
-        if (Password == ControlPassword && Name.Length > 0 && Password.Length > 0)
-        {
-            newEventId = dataAccess.InsertEvent(Name, Password, MaxParticipants, Date, HTMLMessage, HTMLPage);
+        Event = dataAccess.GetEvent(EventId);
 
-            successfulyCreated = true;
+        if (Event.Password == Password)
+        {
+            Participants = dataAccess.GetParticipants(Event.Id);
+
+            loggedIn = true;
         }
     }
 
 #line default
 #line hidden
 #nullable disable
-        [global::Microsoft.AspNetCore.Components.InjectAttribute] private NavigationManager NavManager { get; set; }
     }
 }
 #pragma warning restore 1591

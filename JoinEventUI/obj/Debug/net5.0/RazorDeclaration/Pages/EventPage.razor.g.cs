@@ -105,13 +105,19 @@ using Data;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 12 "C:\Users\mikuh\source\repos\JoinEvent\JoinEventUI\Pages\EventPage.razor"
-           
+#line 21 "C:\Users\mikuh\source\repos\JoinEvent\JoinEventUI\Pages\EventPage.razor"
+       
     private Event Event;
+
+    private void Join()
+    {
+        NavManager.NavigateTo($"join?id={ Event.Id }");
+    }
 
     protected override void OnInitialized()
     {
         var uri = NavManager.ToAbsoluteUri(NavManager.Uri);
+
         if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("id", out var _id))
         {
             int eventId = 0;
