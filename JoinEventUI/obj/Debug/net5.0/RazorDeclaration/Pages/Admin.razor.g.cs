@@ -105,7 +105,7 @@ using Data.DataObjects;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 87 "C:\Users\mikuh\source\repos\JoinEvent\JoinEventUI\Pages\Admin.razor"
+#line 107 "C:\Users\mikuh\source\repos\JoinEvent\JoinEventUI\Pages\Admin.razor"
        
     private int EventId { get; set; }
     private string Password { get; set; } = "";
@@ -113,7 +113,58 @@ using Data.DataObjects;
     private bool loggedIn = false;
 
     private Event Event { get; set; }
+
     private List<Participant> Participants { get; set; }
+    private List<Participant> ParticipantsToDisplay { get; set; }
+
+    private string SearchExpression { get; set; } = "";
+
+    #region Search
+    private void SearchById()
+    {
+        AdjustSearchExpression();
+
+        var filteredResults = Participants.Where(o => o.Id.ToString().Contains(SearchExpression));
+        ParticipantsToDisplay = filteredResults.ToList();
+
+        InvokeAsync(StateHasChanged);
+    }
+
+    private void SearchByFullName()
+    {
+        AdjustSearchExpression();
+
+        var filteredResults = Participants.Where(o => o.FullName.ToLower().Replace(" ", "").Contains(SearchExpression));
+        ParticipantsToDisplay = filteredResults.ToList();
+
+        InvokeAsync(StateHasChanged);
+    }
+
+    private void SearchByEmail()
+    {
+        AdjustSearchExpression();
+
+        var filteredResults = Participants.Where(o => o.Email.ToLower().Replace(" ", "").Contains(SearchExpression));
+        ParticipantsToDisplay = filteredResults.ToList();
+
+        InvokeAsync(StateHasChanged);
+    }
+
+    private void SearchByPhoneNumber()
+    {
+        AdjustSearchExpression();
+
+        var filteredResults = Participants.Where(o => o.PhoneNumber.Replace(" ", "").Contains(SearchExpression));
+        ParticipantsToDisplay = filteredResults.ToList();
+
+        InvokeAsync(StateHasChanged);
+    }
+
+    private void AdjustSearchExpression()
+    {
+        SearchExpression = SearchExpression.ToLower().Replace(" ", "");
+    }
+    #endregion Search
 
     private void SetEventId(string idText)
     {
@@ -135,6 +186,8 @@ using Data.DataObjects;
         if (Event.Password == Password)
         {
             Participants = dataAccess.GetParticipants(Event.Id);
+
+            ParticipantsToDisplay = Participants;
 
             loggedIn = true;
         }

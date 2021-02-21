@@ -105,7 +105,7 @@ using Microsoft.AspNetCore.WebUtilities;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 37 "C:\Users\mikuh\source\repos\JoinEvent\JoinEventUI\Pages\JoinEvent.razor"
+#line 41 "C:\Users\mikuh\source\repos\JoinEvent\JoinEventUI\Pages\JoinEvent.razor"
        
     private Event Event;
 
@@ -123,14 +123,14 @@ using Microsoft.AspNetCore.WebUtilities;
 
         if (FullName.Length > 0 && Email.Length > 0 && AtendeeCount > 0 && AtendeeCount <= Event.PlacesLeft)
         {
-            dataAccess.InsertParticipant(Event.Id, FullName, Email, PhoneNumber, AtendeeCount);
+            int participantId = dataAccess.InsertParticipant(Event.Id, FullName, Email, PhoneNumber, AtendeeCount);
             dataAccess.UpdateParticipantCount(AtendeeCount, Event.Id);
 
             joined = true;
 
             if (Event.HTMLMessage.Length > 0)
             {
-                EmailSender.Send(Email, Event.HTMLMessage, Event.Name);
+                EmailSender.Send(participantId, Email, Event.HTMLMessage, Event.Name);
                 emailSent = true;
             }
 

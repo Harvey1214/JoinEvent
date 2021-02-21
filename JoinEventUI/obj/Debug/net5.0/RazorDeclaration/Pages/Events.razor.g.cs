@@ -98,13 +98,31 @@ using Data;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 45 "C:\Users\mikuh\source\repos\JoinEvent\JoinEventUI\Pages\Events.razor"
+#line 62 "C:\Users\mikuh\source\repos\JoinEvent\JoinEventUI\Pages\Events.razor"
        
     List<Event> events = new List<Event>();
+    List<Event> eventsToDisplay = new List<Event>();
+
+    private string SearchExpression { get; set; } = "";
 
     private void OpenEvent(int id)
     {
         NavManager.NavigateTo($"event?id={id}");
+    }
+
+    private void Search()
+    {
+        AdjustSearchExpression();
+
+        var filteredResults = events.Where(o => o.Name.ToLower().Replace(" ", "").Contains(SearchExpression));
+        eventsToDisplay = filteredResults.ToList();
+
+        InvokeAsync(StateHasChanged);
+    }
+
+    private void AdjustSearchExpression()
+    {
+        SearchExpression = SearchExpression.ToLower().Replace(" ", "");
     }
 
     protected override void OnInitialized()
@@ -112,6 +130,8 @@ using Data;
         DataAccess dataAccess = new DataAccess();
 
         events = dataAccess.GetEvents();
+
+        eventsToDisplay = events;
     }
 
 #line default

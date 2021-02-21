@@ -8,6 +8,10 @@
     <div class="alert alert-success" role="alert">
         <strong>Congrats!</strong> You have joined @Event.Name
     </div>
+}
+
+@if (emailSent)
+{
     <div class="alert alert-info" role="alert">
         An <strong>email has been sent</strong> to the email address provided with further information about the event
     </div>
@@ -51,14 +55,14 @@
 
         if (FullName.Length > 0 && Email.Length > 0 && AtendeeCount > 0 && AtendeeCount <= Event.PlacesLeft)
         {
-            dataAccess.InsertParticipant(Event.Id, FullName, Email, PhoneNumber, AtendeeCount);
+            int participantId = dataAccess.InsertParticipant(Event.Id, FullName, Email, PhoneNumber, AtendeeCount);
             dataAccess.UpdateParticipantCount(AtendeeCount, Event.Id);
 
             joined = true;
 
             if (Event.HTMLMessage.Length > 0)
             {
-                EmailSender.Send(Email, Event.HTMLMessage, Event.Name);
+                EmailSender.Send(participantId, Email, Event.HTMLMessage, Event.Name);
                 emailSent = true;
             }
 

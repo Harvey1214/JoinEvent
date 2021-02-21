@@ -4,6 +4,15 @@
 
 <h3>Events</h3>
 
+<div class="form-row form-element">
+    <div class="col-md-2">
+        <input @oninput="@((e) => { SearchExpression = (string)e.Value; })" type="search" class="form-control" placeholder="Search" />
+    </div>
+    <div class="col-md-1">
+        <button type="submit" class="btn btn-primary" @onclick="Search"><span class="oi oi-magnifying-glass"></span></button>
+    </div>
+</div>
+
 <table class="table">
     <thead>
         <tr>
@@ -22,7 +31,7 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var eventData in events)
+        @foreach (var eventData in eventsToDisplay)
         {
             <tr>
                 <td>
@@ -39,15 +48,41 @@
                 </td>
             </tr>
         }
+        @if (eventsToDisplay.Count == 0)
+        {
+            <tr>
+                <td>
+                    No events have been found
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
 
 @code {
     List<Event> events = new List<Event>();
+    List<Event> eventsToDisplay = new List<Event>();
+
+    private string SearchExpression { get; set; } = "";
 
     private void OpenEvent(int id)
     {
         NavManager.NavigateTo($"event?id={id}");
+    }
+
+    private void Search()
+    {
+        AdjustSearchExpression();
+
+        var filteredResults = events.Where(o => o.Name.ToLower().Replace(" ", "").Contains(SearchExpression));
+        eventsToDisplay = filteredResults.ToList();
+
+        InvokeAsync(StateHasChanged);
+    }
+
+    private void AdjustSearchExpression()
+    {
+        SearchExpression = SearchExpression.ToLower().Replace(" ", "");
     }
 
     protected override void OnInitialized()
@@ -55,5 +90,7 @@
         DataAccess dataAccess = new DataAccess();
 
         events = dataAccess.GetEvents();
+
+        eventsToDisplay = events;
     }
 }

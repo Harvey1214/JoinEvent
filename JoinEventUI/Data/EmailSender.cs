@@ -8,7 +8,7 @@ namespace JoinEventUI.Data
 {
     public static class EmailSender
     {
-        public static void Send(string email, string content, string eventName)
+        public static void Send(int participantId, string email, string content, string eventName)
         {
             SmtpClient smtpClient = new SmtpClient("smtp.gmail.com", 587);
 
@@ -21,7 +21,7 @@ namespace JoinEventUI.Data
             mail.IsBodyHtml = true;
 
             mail.Subject = $"{eventName} - Event Info";
-            mail.Body = content;
+            mail.Body = $"<div class=\"alert alert-danger\" role=\"alert\">Your <b>Participant ID</b> is {participantId}, the event provider may require your participant id, full name and/or the email address provided.</div><br />{content}";
 
             //Setting From , To and CC
             mail.From = new MailAddress("user1325423@gmail.com");

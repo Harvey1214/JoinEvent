@@ -110,14 +110,27 @@ namespace JoinEventUI.Data
             }
         }
 
-        public void InsertParticipant(int eventId, string fullName, string email, string phoneNumber, int atendeeCount)
+        /// <summary>
+        /// Inserts new participant and returns a new participant id
+        /// </summary>
+        /// <param name="eventId"></param>
+        /// <param name="fullName"></param>
+        /// <param name="email"></param>
+        /// <param name="phoneNumber"></param>
+        /// <param name="atendeeCount"></param>
+        /// <returns></returns>
+        public int InsertParticipant(int eventId, string fullName, string email, string phoneNumber, int atendeeCount)
         {
+            int newId = GetHighestParticipantId() + 1;
+
             using (IDbConnection connection = new SqlConnection(Helper.GetConnectionString()))
             {
                 connection.Execute("insert into ParticipantsTable(Id, EventId, FullName, Email, PhoneNumber, AtendeeCount) " +
                     "values (@Id, @EventId, @FullName, @Email, @PhoneNumber, @AtendeeCount)",
-                    new { Id = GetHighestParticipantId() + 1, EventId = eventId, FullName = fullName, Email = email, PhoneNumber = phoneNumber, AtendeeCount = atendeeCount });
+                    new { Id = newId, EventId = eventId, FullName = fullName, Email = email, PhoneNumber = phoneNumber, AtendeeCount = atendeeCount });
             }
+
+            return newId;
         }
 
         private int GetHighestParticipantId()
