@@ -77,6 +77,9 @@ else
             <th>
                 Atendee Count
             </th>
+            <th>
+                Remove
+            </th>
         </tr>
     </thead>
     <tbody>
@@ -98,6 +101,9 @@ else
                 <td>
                     @participant.AtendeeCount
                 </td>
+                <td>
+                    <button type="button" class="btn btn-danger" @onclick="() => RemoveParticipant(participant.Id)">Remove</button>
+                </td>
             </tr>
         }
     </tbody>
@@ -116,6 +122,26 @@ else
     private List<Participant> ParticipantsToDisplay { get; set; }
 
     private string SearchExpression { get; set; } = "";
+
+    private void RemoveParticipant(int participantId)
+    {
+        DataAccess dataAccess = new DataAccess();
+
+        // finding the participant to remove
+        Participant participantToRemove = Participants.Where(o => o.Id == participantId).FirstOrDefault();
+
+        // updating list of participants UI
+        Participants.Remove(participantToRemove);
+        ParticipantsToDisplay.Remove(participantToRemove);
+
+        // updating places left UI
+        Event.ParticipantCount -= participantToRemove.AtendeeCount;
+
+        InvokeAsync(StateHasChanged);
+
+        // removing record from database
+        dataAccess.RemoveParticipant(participantToRemove.Id, participantToRemove.AtendeeCount, participantToRemove.EventId);
+    }
 
     #region Search
     private void SearchById()

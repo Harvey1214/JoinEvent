@@ -98,7 +98,7 @@ using Data;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 47 "C:\Users\mikuh\source\repos\JoinEvent\JoinEventUI\Pages\NewEvent.razor"
+#line 62 "C:\Users\mikuh\source\repos\JoinEvent\JoinEventUI\Pages\NewEvent.razor"
        
     private string Name { get; set; } = "";
     private string Password { get; set; } = "";

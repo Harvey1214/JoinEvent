@@ -105,7 +105,7 @@ using Data.DataObjects;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 107 "C:\Users\mikuh\source\repos\JoinEvent\JoinEventUI\Pages\Admin.razor"
+#line 113 "C:\Users\mikuh\source\repos\JoinEvent\JoinEventUI\Pages\Admin.razor"
        
     private int EventId { get; set; }
     private string Password { get; set; } = "";
@@ -118,6 +118,26 @@ using Data.DataObjects;
     private List<Participant> ParticipantsToDisplay { get; set; }
 
     private string SearchExpression { get; set; } = "";
+
+    private void RemoveParticipant(int participantId)
+    {
+        DataAccess dataAccess = new DataAccess();
+
+        // finding the participant to remove
+        Participant participantToRemove = Participants.Where(o => o.Id == participantId).FirstOrDefault();
+
+        // updating list of participants UI
+        Participants.Remove(participantToRemove);
+        ParticipantsToDisplay.Remove(participantToRemove);
+
+        // updating places left UI
+        Event.ParticipantCount -= participantToRemove.AtendeeCount;
+
+        InvokeAsync(StateHasChanged);
+
+        // removing record from database
+        dataAccess.RemoveParticipant(participantToRemove.Id, participantToRemove.AtendeeCount, participantToRemove.EventId);
+    }
 
     #region Search
     private void SearchById()

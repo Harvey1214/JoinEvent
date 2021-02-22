@@ -133,6 +133,16 @@ namespace JoinEventUI.Data
             return newId;
         }
 
+        public void RemoveParticipant(int participantId, int participantCount, int eventId)
+        {
+            using (IDbConnection connection = new SqlConnection(Helper.GetConnectionString()))
+            {
+                connection.Execute("delete from ParticipantsTable where Id = @Id", new { Id = participantId });
+            }
+
+            UpdateParticipantCount(-participantCount, eventId);
+        }
+
         private int GetHighestParticipantId()
         {
             List<Participant> participants = GetAllParticipants();
