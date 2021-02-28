@@ -89,6 +89,13 @@ using Microsoft.AspNetCore.WebUtilities;
 #line default
 #line hidden
 #nullable disable
+#nullable restore
+#line 4 "C:\Users\mikuh\source\repos\JoinEvent\JoinEventUI\Pages\EventPage.razor"
+using Data;
+
+#line default
+#line hidden
+#nullable disable
     [Microsoft.AspNetCore.Components.RouteAttribute("/event")]
     public partial class EventPage : Microsoft.AspNetCore.Components.ComponentBase
     {
@@ -98,17 +105,36 @@ using Microsoft.AspNetCore.WebUtilities;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 9 "C:\Users\mikuh\source\repos\JoinEvent\JoinEventUI\Pages\EventPage.razor"
-           
-    private int currentCount;
+#line 21 "C:\Users\mikuh\source\repos\JoinEvent\JoinEventUI\Pages\EventPage.razor"
+       
+    private Event Event;
+
+    private void Join()
+    {
+        NavManager.NavigateTo($"join?id={ Event.Id }");
+    }
 
     protected override void OnInitialized()
     {
         var uri = NavManager.ToAbsoluteUri(NavManager.Uri);
-        if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("initialCount", out var _initialCount))
+
+        if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("id", out var _id))
         {
-            currentCount = Convert.ToInt32(_initialCount);
+            int eventId = 0;
+            bool success = Int32.TryParse(_id, out eventId);
+
+            if (success)
+            {
+                SetEvent(eventId);
+            }
         }
+    }
+
+    private void SetEvent(int id)
+    {
+        DataAccess dataAccess = new DataAccess();
+
+        Event = dataAccess.GetEvent(id);
     }
 
 #line default

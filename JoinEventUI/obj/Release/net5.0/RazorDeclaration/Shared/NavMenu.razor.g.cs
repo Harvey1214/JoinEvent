@@ -90,7 +90,7 @@ using JoinEventUI.Shared;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 28 "C:\Users\mikuh\source\repos\JoinEvent\JoinEventUI\Shared\NavMenu.razor"
+#line 33 "C:\Users\mikuh\source\repos\JoinEvent\JoinEventUI\Shared\NavMenu.razor"
        
     private bool collapseNavMenu = true;
 

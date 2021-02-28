@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+This file is used by the publish/package process of your Web project. You can customize the behavior of this process
+by editing this MSBuild file. In order to learn more about this please visit https://go.microsoft.com/fwlink/?LinkID=208121. 
+-->
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <TimeStampOfAssociatedLegacyPublishXmlFile />
+    <EncryptedPassword>AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAJchqqAPSr0+JeYoh2DaLZgAAAAACAAAAAAAQZgAAAAEAACAAAAAV/NNOa4kFuTZX/Ml3tJv8VWho2wEY/cwMCPtUBBHoAgAAAAAOgAAAAAIAACAAAAAy0i2j3apK3G5x0yOlWBZe1VJOnoeTcDnC1XOI3z+fJiAAAAASSSkpdrdeNJCNP0f1h12lp+P8+mF4wU5Z04HJa4fhuUAAAABD8uuI+kTK4jblOIYJ2mEmBPprd5Yw48PFFJp3UQ0BwndsYdtP7xBwmWy+jLht1tc/f59VnYY/DxT+8vbGFhuX</EncryptedPassword>
+    <_PublishTargetUrl>ftp://d103wh.forpsi.com/www/joinevent/</_PublishTargetUrl>
+  </PropertyGroup>
+  <ItemGroup>
+    <File Include="appsettings.Development.json">
+      <publishTime>02/19/2021 13:35:10</publishTime>
+    </File>
+    <File Include="appsettings.json">
+      <publishTime>02/19/2021 13:35:10</publishTime>
+    </File>
+    <File Include="Dapper.dll">
+      <publishTime>11/17/2020 09:59:00</publishTime>
+    </File>
+    <File Include="JoinEventUI.deps.json">
+      <publishTime>02/28/2021 17:31:08</publishTime>
+    </File>
+    <File Include="JoinEventUI.dll">
+      <publishTime>02/28/2021 17:31:07</publishTime>
+    </File>
+    <File Include="JoinEventUI.exe">
+      <publishTime>02/28/2021 17:31:07</publishTime>
+    </File>
+    <File Include="JoinEventUI.pdb">
+      <publishTime>02/28/2021 17:31:07</publishTime>
+    </File>
+    <File Include="JoinEventUI.runtimeconfig.json">
+      <publishTime>02/28/2021 17:29:14</publishTime>
+    </File>
+    <File Include="JoinEventUI.Views.dll">
+      <publishTime>02/28/2021 17:31:08</publishTime>
+    </File>
+    <File Include="JoinEventUI.Views.pdb">
+      <publishTime>02/28/2021 17:31:08</publishTime>
+    </File>
+    <File Include="Newtonsoft.Json.dll">
+      <publishTime>11/09/2019 00:56:44</publishTime>
+    </File>
+    <File Include="runtimes/unix/lib/netcoreapp2.1/System.Data.SqlClient.dll">
+      <publishTime>07/20/2020 21:33:18</publishTime>
+    </File>
+    <File Include="runtimes/win-arm64/native/sni.dll">
+      <publishTime>07/12/2017 12:24:24</publishTime>
+    </File>
+    <File Include="runtimes/win-x64/native/sni.dll">
+      <publishTime>07/12/2017 12:24:22</publishTime>
+    </File>
+    <File Include="runtimes/win-x86/native/sni.dll">
+      <publishTime>07/12/2017 12:24:22</publishTime>
+    </File>
+    <File Include="runtimes/win/lib/netcoreapp2.1/System.Data.SqlClient.dll">
+      <publishTime>07/20/2020 21:33:24</publishTime>
+    </File>
+    <File Include="runtimes/win/lib/netstandard2.0/System.Security.Cryptography.ProtectedData.dll">
+      <publishTime>10/19/2020 18:49:30</publishTime>
+    </File>
+    <File Include="System.Configuration.ConfigurationManager.dll">
+      <publishTime>10/19/2020 18:52:30</publishTime>
+    </File>
+    <File Include="System.Data.SqlClient.dll">
+      <publishTime>07/20/2020 21:21:14</publishTime>
+    </File>
+    <File Include="System.Security.Cryptography.ProtectedData.dll">
+      <publishTime>10/19/2020 18:52:26</publishTime>
+    </File>
+    <File Include="web.config">
+      <publishTime>02/28/2021 17:31:11</publishTime>
+    </File>
+    <File Include="wwwroot/css/bootstrap/bootstrap.min.css">
+      <publishTime>02/19/2021 13:35:10</publishTime>
+    </File>
+    <File Include="wwwroot/css/bootstrap/bootstrap.min.css.map">
+      <publishTime>02/19/2021 13:35:10</publishTime>
+    </File>
+    <File Include="wwwroot/css/open-iconic/FONT-LICENSE">
+      <publishTime>02/19/2021 13:35:10</publishTime>
+    </File>
+    <File Include="wwwroot/css/open-iconic/font/css/open-iconic-bootstrap.min.css">
+      <publishTime>02/19/2021 13:35:10</publishTime>
+    </File>
+    <File Include="wwwroot/css/open-iconic/font/fonts/open-iconic.eot">
+      <publishTime>02/19/2021 13:35:10</publishTime>
+    </File>
+    <File Include="wwwroot/css/open-iconic/font/fonts/open-iconic.otf">
+      <publishTime>02/19/2021 13:35:10</publishTime>
+    </File>
+    <File Include="wwwroot/css/open-iconic/font/fonts/open-iconic.svg">
+      <publishTime>02/19/2021 13:35:10</publishTime>
+    </File>
+    <File Include="wwwroot/css/open-iconic/font/fonts/open-iconic.ttf">
+      <publishTime>02/19/2021 13:35:10</publishTime>
+    </File>
+    <File Include="wwwroot/css/open-iconic/font/fonts/open-iconic.woff">
+      <publishTime>02/19/2021 13:35:10</publishTime>
+    </File>
+    <File Include="wwwroot/css/open-iconic/ICON-LICENSE">
+      <publishTime>02/19/2021 13:35:10</publishTime>
+    </File>
+    <File Include="wwwroot/css/open-iconic/README.md">
+      <publishTime>02/19/2021 13:35:10</publishTime>
+    </File>
+    <File Include="wwwroot/css/site.css">
+      <publishTime>02/19/2021 18:40:00</publishTime>
+    </File>
+    <File Include="wwwroot/favicon.ico">
+      <publishTime>02/19/2021 13:35:10</publishTime>
+    </File>
+    <File Include="wwwroot/JoinEventUI.styles.css">
+      <publishTime>02/28/2021 17:29:13</publishTime>
+    </File>
+  </ItemGroup>
+</Project>

@@ -98,14 +98,19 @@ using Data;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 15 "C:\Users\mikuh\source\repos\JoinEvent\JoinEventUI\Pages\NewEvent.razor"
+#line 62 "C:\Users\mikuh\source\repos\JoinEvent\JoinEventUI\Pages\NewEvent.razor"
        
-    private string Name { get; set; }
-    private string Password { get; set; }
-    private int MaxParticipants { get; set; }
+    private string Name { get; set; } = "";
+    private string Password { get; set; } = "";
+    private int MaxParticipants { get; set; } = 0;
     private DateTime Date { get; set; } = DateTime.Now;
-    private string HTMLMessage;
-    private string HTMLPage;
+    private string HTMLMessage = "";
+    private string HTMLPage = "";
+
+    private string ControlPassword { get; set; }
+
+    private bool successfulyCreated = false;
+    private int newEventId;
 
     private void SetMaxParticipants(string maxParticipants)
     {
@@ -133,12 +138,18 @@ using Data;
     {
         DataAccess dataAccess = new DataAccess();
 
-        dataAccess.InsertEvent(Name, Password, MaxParticipants, Date, HTMLMessage, HTMLPage);
+        if (Password == ControlPassword && Name.Length > 0 && Password.Length > 0)
+        {
+            newEventId = dataAccess.InsertEvent(Name, Password, MaxParticipants, Date, HTMLMessage, HTMLPage);
+
+            successfulyCreated = true;
+        }
     }
 
 #line default
 #line hidden
 #nullable disable
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private NavigationManager NavManager { get; set; }
     }
 }
 #pragma warning restore 1591
